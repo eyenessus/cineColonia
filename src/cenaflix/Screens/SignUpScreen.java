@@ -10,7 +10,7 @@ public class SignUpScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(10,10));
+        setLayout(new BorderLayout(10, 10));
         initalizeComponents();
     }
 
@@ -52,8 +52,13 @@ public class SignUpScreen extends JFrame {
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JTextField textFieldYear = new JTextField(20);
-        mainPanel.add(textFieldYear, gbc);
+        JFormattedTextField textFieldDate = new JFormattedTextField(new java.text.SimpleDateFormat("dd/MM/yyyy"));
+        textFieldDate.setToolTipText("dd/MM/yyyy");
+        textFieldDate.setColumns(20);
+        textFieldDate.setText("dd/MM/yyyy");
+        
+        textFieldDate.setColumns(20);
+        mainPanel.add(textFieldDate, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -61,10 +66,18 @@ public class SignUpScreen extends JFrame {
         JLabel labelCategory = new JLabel("Category:");
         mainPanel.add(labelCategory, gbc);
 
+        JComboBox<String> comboBoxCategory = new JComboBox<>();
+        comboBoxCategory.addItem("Ação");
+        comboBoxCategory.addItem("Aventura");
+        comboBoxCategory.addItem("Comédia");
+        comboBoxCategory.addItem("Drama");
+        comboBoxCategory.addItem("Ficção Científica");
+        comboBoxCategory.addItem("Terror");
+
+
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JTextField textFieldCategory = new JTextField(20);
-        mainPanel.add(textFieldCategory, gbc);
+        mainPanel.add(comboBoxCategory, gbc);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
