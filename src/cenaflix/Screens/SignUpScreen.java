@@ -74,7 +74,6 @@ public class SignUpScreen extends JFrame {
         comboBoxCategory.addItem("Ficção Científica");
         comboBoxCategory.addItem("Terror");
 
-
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(comboBoxCategory, gbc);
@@ -94,6 +93,28 @@ public class SignUpScreen extends JFrame {
 
         mainPanel.add(buttonPanel, gbc);
         add(mainPanel);
+
+
+        
+        buttonRegister.addActionListener(e -> {
+            String name = textFieldName.getText();
+            String date = textFieldDate.getText();
+            String category = comboBoxCategory.getSelectedItem().toString();
+
+            System.out.println("Nome: " + name);
+            System.out.println("Data: " + date);
+            System.out.println("Categoria: " + category);
+        });
+
+        buttonClean.addActionListener(e->{
+            textFieldName.setText("");
+            textFieldDate.setText("dd/MM/yyyy");
+            comboBoxCategory.setSelectedIndex(0);
+        });
+
+
         setVisible(true);
     }
+
+    
 }
