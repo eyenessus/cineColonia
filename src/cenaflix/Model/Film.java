@@ -25,6 +25,14 @@ public class Film {
      * Set the id of the film
      * @param id id of the film
      */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Set the title of the film
+     * @param title title of the film
+     */
     public void setTitle(String title){
         this.title = title;
     }

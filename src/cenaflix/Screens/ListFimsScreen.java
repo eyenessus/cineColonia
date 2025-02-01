@@ -1,7 +1,6 @@
 package cenaflix.Screens;
 
 import java.awt.BorderLayout;
-import java.awt.Label;
 import java.util.List;
 
 import javax.swing.JFrame;

@@ -58,6 +58,7 @@ public class FilmDAO implements IFilmDAO {
 
                 while (result.next()) {
                     Film film = new Film();
+                    film.setId(result.getLong("id"));
                     film.setTitle(result.getString("nome"));
                     film.setDate(result.getDate("datalancamento"));
                     film.setCategory(new Category(result.getString("categoria")));
