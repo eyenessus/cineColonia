@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Conexao {
-    Connection conn; //criando um objeto do tipo connection chamado conn
-    public String url, usuario, senha;
+    Connection conn; 
+    private String url, usuario, senha;
 
     public Conexao(){
         url = "jdbc:mysql://localhost:3306/ATIVIDADE1";

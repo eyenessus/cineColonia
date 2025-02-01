@@ -93,17 +93,11 @@ public class SignUpScreen extends JFrame {
 
         mainPanel.add(buttonPanel, gbc);
         add(mainPanel);
-
-
         
         buttonRegister.addActionListener(e -> {
             String name = textFieldName.getText();
             String date = textFieldDate.getText();
             String category = comboBoxCategory.getSelectedItem().toString();
-
-            System.out.println("Nome: " + name);
-            System.out.println("Data: " + date);
-            System.out.println("Categoria: " + category);
         });
 
         buttonClean.addActionListener(e->{
