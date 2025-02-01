@@ -8,10 +8,16 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import cenaflix.Database.Conexao;
+import cenaflix.Interfaces.IFilmDAO;
 import cenaflix.Model.Category;
 import cenaflix.Model.Film;
 
-public class FilmDAO {
+/**
+ * @author Emerson S.
+ * @version 1.0
+ * @since 01-02-2025
+ */
+public class FilmDAO implements IFilmDAO {
     private Conexao dataBase;
 
     public FilmDAO() {
@@ -81,7 +87,7 @@ public class FilmDAO {
             if (dataBase.conectar()) {
                 PreparedStatement st = dataBase.conn.prepareStatement(query);
                 Boolean titleIsEmpty = title.isEmpty();
-                if(!titleIsEmpty) {
+                if (!titleIsEmpty) {
                     st.setString(1, "%" + title + "%");
                 }
 
