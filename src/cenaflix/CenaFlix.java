@@ -6,8 +6,9 @@ package cenaflix;
 import cenaflix.Screens.SignUpScreen;
 
 /**
- *
+ * CenaFlix - Main class of the application
  * @author Emerson S.
+ * @version 1.0
  */
 public class CenaFlix {
 
@@ -16,7 +17,6 @@ public class CenaFlix {
      */
     public static void main(String[] args) {
         new SignUpScreen();
-      
     }
 
 }

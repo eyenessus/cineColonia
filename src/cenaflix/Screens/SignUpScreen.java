@@ -11,6 +11,13 @@ import javax.swing.*;
 import cenaflix.DAO.FilmDAO;
 import cenaflix.Model.Category;
 import cenaflix.Model.Film;
+/**
+ * SignUpScreen - Screen to register a new film
+ * @author Emerson S.
+ * @version 1.0
+ * @since 01-02-2025
+ * @version 1.0
+ */
 public class SignUpScreen extends JFrame {
     public SignUpScreen() {
         setSize(800, 600);
@@ -22,6 +29,12 @@ public class SignUpScreen extends JFrame {
         initalizeComponents();
     }
 
+    /**
+     * Initialize the components of the screen
+     * @author Emerson S.
+     * @since 01-02-2025
+     * @version 1.0
+     */
     private void initalizeComponents() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
@@ -146,7 +159,6 @@ public class SignUpScreen extends JFrame {
                 comboBoxCategory.setSelectedIndex(0);
             }
         });
-
         setVisible(true);
     }
 

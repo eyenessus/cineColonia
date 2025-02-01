@@ -3,7 +3,11 @@ package cenaflix.Interfaces;
 import java.util.List;
 
 import cenaflix.Model.Film;
-
+/**
+ * IFilmDAO - Interface for FilmDAO
+ * @author Emerson S.
+ * @version 1.0
+ */
 public interface IFilmDAO {
 
     /**

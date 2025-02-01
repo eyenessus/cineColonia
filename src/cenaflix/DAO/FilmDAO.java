@@ -13,6 +13,7 @@ import cenaflix.Model.Category;
 import cenaflix.Model.Film;
 
 /**
+ * Film DAO
  * @author Emerson S.
  * @version 1.0
  * @since 01-02-2025
