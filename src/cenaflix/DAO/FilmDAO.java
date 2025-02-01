@@ -122,7 +122,7 @@ public class FilmDAO implements IFilmDAO {
 
     public boolean deleteFilm(String title) {
         try {
-            String query = "DELETE FROM filmes WHERE nome = ?";
+            String query = "DELETE FROM filmes WHERE id = ?";
             if (dataBase.conectar()) {
                 PreparedStatement st = dataBase.conn.prepareStatement(query);
                 st.setString(1, title);
@@ -160,6 +160,34 @@ public class FilmDAO implements IFilmDAO {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
             return false;
+        }
+    }
+
+    public Film getFilmByID(Long id) {
+        try {
+            String query = "SELECT * FROM filmes WHERE id = ?";
+            if (dataBase.conectar()) {
+                PreparedStatement st = dataBase.conn.prepareStatement(query);
+                st.setLong(1, id);
+                ResultSet result = st.executeQuery();
+
+                if (result.next()) {
+                    Film film = new Film();
+                    film.setId(result.getLong("id"));
+                    film.setTitle(result.getString("nome"));
+                    film.setDate(result.getDate("datalancamento"));
+                    film.setCategory(new Category(result.getString("categoria")));
+                    dataBase.desconectar();
+                    return film;
+                }
+                dataBase.desconectar();
+                return null;
+            }
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
+            return null;
         }
     }
 

@@ -19,7 +19,21 @@ import cenaflix.Model.Film;
  * @version 1.0
  */
 public class SignUpScreen extends JFrame {
+    private boolean isUpdate = false;
+    private Film film;
     public SignUpScreen() {
+        setSize(800, 600);
+        setTitle("Cenaflix - Cadastro de filmes");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
+        initalizeComponents();
+    }
+
+    public SignUpScreen(Film film){
+        isUpdate = true;
+        this.film = film;
         setSize(800, 600);
         setTitle("Cenaflix - Cadastro de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,6 +122,14 @@ public class SignUpScreen extends JFrame {
         JButton buttonRegister = new JButton("Registrar");
         JButton buttonClean = new JButton("Limpar");
 
+        if(isUpdate){
+            buttonRegister.setText("Atualizar");
+            textFieldName.setText(film.getTitle());
+            textFieldDate.setText(film.getDate().toString());
+            comboBoxCategory.setSelectedIndex(0);
+        }else{
+            buttonRegister.setText("Registrar");
+        }
         buttonPanel.add(buttonRegister);
         buttonPanel.add(buttonClean);
 
@@ -140,11 +162,16 @@ public class SignUpScreen extends JFrame {
                 }
 
                 Film film = new Film();
+                FilmDAO filmDAO = new FilmDAO();
+
                 film.setTitle(name);
                 film.setDate(dateParse);
                 film.setCategory(new Category(category));
 
-                FilmDAO filmDAO = new FilmDAO();
+                if(isUpdate){
+                    filmDAO.updateFilm(film);
+                    return;
+                }
                 filmDAO.insertFilm(film);
             }
            } catch (Exception ParseException) {

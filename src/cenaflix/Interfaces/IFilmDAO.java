@@ -45,4 +45,10 @@ public interface IFilmDAO {
      */
     public List<Film> searchFilm(String title, String category);
 
+    /**
+     * Get a film by its ID
+     * @param id ID of the film
+     * @return Film if found, null otherwise
+     */
+    public Film getFilmByID(Long id);
 }
