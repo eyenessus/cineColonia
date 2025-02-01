@@ -2,7 +2,7 @@ package cenaflix.Model;
 
 import java.util.Date;
 
-public class Filme {
+public class Film {
     private Long id;
     private String title;
     private Date date;

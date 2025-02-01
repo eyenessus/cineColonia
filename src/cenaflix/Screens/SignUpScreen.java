@@ -56,7 +56,7 @@ public class SignUpScreen extends JFrame {
         textFieldDate.setToolTipText("dd/MM/yyyy");
         textFieldDate.setColumns(20);
         textFieldDate.setText("dd/MM/yyyy");
-        
+
         textFieldDate.setColumns(20);
         mainPanel.add(textFieldDate, gbc);
 
@@ -93,22 +93,30 @@ public class SignUpScreen extends JFrame {
 
         mainPanel.add(buttonPanel, gbc);
         add(mainPanel);
-        
+
         buttonRegister.addActionListener(e -> {
-            String name = textFieldName.getText();
-            String date = textFieldDate.getText();
-            String category = comboBoxCategory.getSelectedItem().toString();
+            if (textFieldName.getText().isEmpty() || textFieldDate.getText().isEmpty()
+                    || textFieldDate.getText().equals("dd/MM/yyyy")) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente!");
+                return;
+            }
+
+            if (e.getSource() == buttonRegister) {
+                String name = textFieldName.getText();
+                String date = textFieldDate.getText();
+                String category = comboBoxCategory.getSelectedItem().toString();
+            }
         });
 
-        buttonClean.addActionListener(e->{
-            textFieldName.setText("");
-            textFieldDate.setText("dd/MM/yyyy");
-            comboBoxCategory.setSelectedIndex(0);
+        buttonClean.addActionListener(e -> {
+            if (e.getSource() == buttonClean) {
+                textFieldName.setText("");
+                textFieldDate.setText("dd/MM/yyyy");
+                comboBoxCategory.setSelectedIndex(0);
+            }
         });
-
 
         setVisible(true);
     }
 
-    
 }
