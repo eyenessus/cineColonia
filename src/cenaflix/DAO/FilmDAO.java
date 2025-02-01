@@ -68,4 +68,49 @@ public class FilmDAO {
             return null;
         }
     }
+
+    public boolean deleteFilm(String title) {
+        try {
+            String query = "DELETE FROM filmes WHERE nome = ?";
+            if (dataBase.conectar()) {
+                PreparedStatement st = dataBase.conn.prepareStatement(query);
+                st.setString(1, title);
+                st.executeUpdate();
+                dataBase.desconectar();
+                JOptionPane.showMessageDialog(null, "Filme deletado com sucesso!");
+                return true;
+            }
+            JOptionPane.showMessageDialog(null, "Erro ao deletar!");
+            return false;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
+            return false;
+        }
+    }
+
+    public boolean updateFilm(Film film) {
+        try {
+            String query = "UPDATE filmes SET nome = ? datalancamento = ?, categoria = ? WHERE nome = ?";
+            if (dataBase.conectar()) {
+                PreparedStatement st = dataBase.conn.prepareStatement(query);
+                st.setString(1, film.getTitle());
+                st.setDate(1, new java.sql.Date(film.getDate().getTime()));
+                st.setString(2, film.getCategory().getName());
+                st.setString(3, film.getTitle());
+                st.executeUpdate();
+                dataBase.desconectar();
+                JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
+                return true;
+            }
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar!");
+            return false;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
+            return false;
+        }
+    }
+   
+
 }
