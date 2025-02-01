@@ -2,6 +2,8 @@ package cenaflix.Screens;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.swing.*;
@@ -58,10 +60,14 @@ public class SignUpScreen extends JFrame {
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        
         JFormattedTextField textFieldDate = new JFormattedTextField(new java.text.SimpleDateFormat("dd/MM/yyyy"));
         textFieldDate.setToolTipText("dd/MM/yyyy");
         textFieldDate.setColumns(20);
-        textFieldDate.setText("dd/MM/yyyy");
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        textFieldDate.setText(LocalDate.now().format(dateFormatter));
 
         textFieldDate.setColumns(20);
         mainPanel.add(textFieldDate, gbc);
