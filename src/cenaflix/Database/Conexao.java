@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class Conexao {
     public Connection conn; 
     private String url, usuario, senha;
@@ -19,10 +21,10 @@ public class Conexao {
             conn = DriverManager.getConnection(url, usuario, senha);
             return true;
         } catch (ClassNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro: interno!" );
             return false;
         }catch(SQLException e){
-            System.out.println("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro: interno!" );
             return false;
         }
     }
@@ -31,7 +33,7 @@ public class Conexao {
         try {
             conn.close();
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Sistema se encontra inoperante!" );
         }
     }
 }

@@ -1,6 +1,9 @@
 package cenaflix.DAO;
 
+import java.awt.Dialog;
 import java.sql.PreparedStatement;
+
+import javax.swing.JOptionPane;
 
 import cenaflix.Database.Conexao;
 import cenaflix.Model.Film;
@@ -22,14 +25,14 @@ public class FilmDAO {
                 st.setString(3, film.getCategory().getName());
                 st.executeUpdate();
                 dataBase.desconectar();
-                System.out.println("Filme cadastrado com sucesso!");
+                JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso!");
                 return true;
             }
-            System.out.println("Erro ao cadastrar!");
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar!");
             return false;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Error interno!");
+            JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
             return false;
         }
     }
