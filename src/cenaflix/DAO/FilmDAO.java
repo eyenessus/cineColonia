@@ -67,17 +67,30 @@ public class FilmDAO {
         }
     }
 
-    
-
     public List<Film> searchFilm(String title, String category) {
         try {
-            String query = "SELECT * FROM filmes WHERE nome = ? OR categoria LIKE ?";
+            String query = "SELECT * FROM filmes WHERE";
+            if (!title.isEmpty()) {
+                query += " nome LIKE ?";
+            }
+
+            if (title.isEmpty() && category.isEmpty()) {
+                return listFilms();
+            }
+
             if (dataBase.conectar()) {
                 PreparedStatement st = dataBase.conn.prepareStatement(query);
-                st.setString(1, title);
-                st.setString(2, "%" + category + "%");
-                ResultSet result = st.executeQuery();
+                Boolean titleIsEmpty = title.isEmpty();
+                if(!titleIsEmpty) {
+                    st.setString(1, "%" + title + "%");
+                }
 
+                if (!category.isEmpty()) {
+                    query += titleIsEmpty ? "categoria LIKE ?" : "OR categoria LIKE ?";
+                    st.setString(titleIsEmpty ? 1 : 2, "%" + category + "%");
+                }
+
+                ResultSet result = st.executeQuery();
                 List<Film> filmList = new ArrayList<Film>();
 
                 if (result.next()) {
