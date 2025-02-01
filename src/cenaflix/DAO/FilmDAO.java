@@ -40,12 +40,42 @@ public class FilmDAO {
         }
     }
 
-    public List<Film> searchFilm(String title) {
+    public List<Film> listFilms() {
         try {
-            String query = "SELECT * FROM filmes WHERE nome = ?";
+            String query = "SELECT * FROM filmes";
+            if (dataBase.conectar()) {
+                PreparedStatement st = dataBase.conn.prepareStatement(query);
+                ResultSet result = st.executeQuery();
+
+                List<Film> filmList = new ArrayList<Film>();
+
+                while (result.next()) {
+                    Film film = new Film();
+                    film.setTitle(result.getString("nome"));
+                    film.setDate(result.getDate("datalancamento"));
+                    film.setCategory(new Category(result.getString("categoria")));
+                    filmList.add(film);
+                }
+                dataBase.desconectar();
+                return filmList;
+            }
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
+            return null;
+        }
+    }
+
+    
+
+    public List<Film> searchFilm(String title, String category) {
+        try {
+            String query = "SELECT * FROM filmes WHERE nome = ? OR categoria LIKE ?";
             if (dataBase.conectar()) {
                 PreparedStatement st = dataBase.conn.prepareStatement(query);
                 st.setString(1, title);
+                st.setString(2, "%" + category + "%");
                 ResultSet result = st.executeQuery();
 
                 List<Film> filmList = new ArrayList<Film>();
@@ -111,6 +141,5 @@ public class FilmDAO {
             return false;
         }
     }
-   
 
 }
