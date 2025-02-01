@@ -21,9 +21,11 @@ public class Conexao {
             conn = DriverManager.getConnection(url, usuario, senha);
             return true;
         } catch (ClassNotFoundException e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, "Erro: interno!" );
             return false;
         }catch(SQLException e){
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, "Erro: interno!" );
             return false;
         }
