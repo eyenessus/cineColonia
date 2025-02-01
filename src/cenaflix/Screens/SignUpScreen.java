@@ -4,7 +4,6 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import javax.swing.*;
 
@@ -47,9 +46,6 @@ public class SignUpScreen extends JFrame {
         setLayout(new BorderLayout(10, 10));
         initalizeComponents();
     }
-
-  
-
     /**
      * Initialize the components of the screen
      * 
@@ -67,6 +63,7 @@ public class SignUpScreen extends JFrame {
         JLabel labelTitle = new JLabel("CENAFLIX");
         labelTitle.setFont(new Font("Arial", Font.BOLD, 40));
         labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        SimpleDateFormat dateParse = new SimpleDateFormat("dd/MM/yyyy");
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -90,30 +87,28 @@ public class SignUpScreen extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.NONE;
+
         JLabel labelDate = new JLabel("Data de Lançamento:");
         mainPanel.add(labelDate, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JFormattedTextField textFieldDate = new JFormattedTextField(new java.text.SimpleDateFormat("dd/MM/yyyy"));
+        JFormattedTextField textFieldDate = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
         textFieldDate.setToolTipText("dd/MM/yyyy");
         textFieldDate.setColumns(20);
-
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         textFieldDate.setText(LocalDate.now().format(dateFormatter));
-
         textFieldDate.setColumns(20);
         mainPanel.add(textFieldDate, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JLabel labelCategory = new JLabel("Category:");
-        mainPanel.add(labelCategory, gbc);
 
+        JLabel labelCategory = new JLabel("Category:");
         JTextField categoryField = new JTextField();
+        mainPanel.add(labelCategory, gbc);
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -124,8 +119,8 @@ public class SignUpScreen extends JFrame {
         JButton buttonClean = new JButton("Limpar");
         JButton buttonList = new JButton("Listagem");
         JButton buttonBack = new JButton("Voltar");
+
         buttonPanel.setLayout(new FlowLayout());
-        
         buttonPanel.add(buttonClean);
         buttonPanel.add(buttonRegister);
         
@@ -133,7 +128,7 @@ public class SignUpScreen extends JFrame {
             labelTitle.setText("CENAFLIX - Atualização de filmes");
             buttonRegister.setText("Atualizar");
             textFieldName.setText(film.getTitle());
-            textFieldDate.setText(film.getDate().toString());
+            textFieldDate.setText(dateParse.format(film.getDate()));
             categoryField.setText(film.getCategory().getName());
             buttonPanel.add(buttonBack);
         } else {
@@ -145,7 +140,6 @@ public class SignUpScreen extends JFrame {
         gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-
        
         mainPanel.add(buttonPanel, gbc);
         add(mainPanel);
@@ -169,7 +163,7 @@ public class SignUpScreen extends JFrame {
                     String name = textFieldName.getText();
                     String date = textFieldDate.getText();
                     String category = categoryField.getText();
-                    Date dateParse = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    ;
 
                     if (date.length() != 10) {
                         JOptionPane.showMessageDialog(null, "Data inválida!");
@@ -180,11 +174,11 @@ public class SignUpScreen extends JFrame {
                     FilmDAO filmDAO = new FilmDAO();
 
                     film.setTitle(name);
-                    film.setDate(dateParse);
+                    film.setDate(dateParse.parse(date));
                     film.setCategory(new Category(category));
 
                     textFieldName.setText("");
-                    textFieldDate.setText("dd/MM/yyyy");
+                    textFieldDate.setText(LocalDate.now().format(dateFormatter));
                     categoryField.setText("");
 
                     if (isUpdate) {
@@ -203,7 +197,7 @@ public class SignUpScreen extends JFrame {
         buttonClean.addActionListener(e -> {
             if (e.getSource() == buttonClean) {
                 textFieldName.setText("");
-                textFieldDate.setText("dd/MM/yyyy");
+                textFieldDate.setText(LocalDate.now().format(dateFormatter));
                 categoryField.setText("");
             }
         });

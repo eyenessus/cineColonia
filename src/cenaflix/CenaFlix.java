@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package cenaflix;
-import cenaflix.Screens.ListFilmsScreen;
 import cenaflix.Screens.SignUpScreen;
 
 /**

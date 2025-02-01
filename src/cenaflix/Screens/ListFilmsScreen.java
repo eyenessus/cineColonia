@@ -3,6 +3,7 @@ package cenaflix.Screens;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -66,8 +67,9 @@ public class ListFilmsScreen extends JFrame {
 
         // Table data
         List<Film> list = filmDAO.listFilms();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         list.forEach(film -> {
-            model.addRow(new Object[] { film.getId(), film.getTitle(), film.getDate(), film.getCategory().getName() });
+            model.addRow(new Object[] { film.getId(), film.getTitle(),sdf.format(film.getDate()), film.getCategory().getName() });
         });
 
         add(title, BorderLayout.NORTH);
