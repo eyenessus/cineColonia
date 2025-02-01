@@ -1,8 +1,14 @@
 package cenaflix.Screens;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.*;
 
+import cenaflix.DAO.FilmDAO;
+import cenaflix.Model.Category;
+import cenaflix.Model.Film;
 public class SignUpScreen extends JFrame {
     public SignUpScreen() {
         setSize(800, 600);
@@ -101,11 +107,31 @@ public class SignUpScreen extends JFrame {
                 return;
             }
 
+           try {
             if (e.getSource() == buttonRegister) {
                 String name = textFieldName.getText();
                 String date = textFieldDate.getText();
                 String category = comboBoxCategory.getSelectedItem().toString();
+
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date dateParse = dateFormatter.parse(date);
+
+                if(date.length() != 10){
+                    JOptionPane.showMessageDialog(null, "Data inválida!");
+                    return;
+                }
+
+                Film film = new Film();
+                film.setTitle(name);
+                film.setDate(dateParse);
+                film.setCategory(new Category(category));
+
+                FilmDAO filmDAO = new FilmDAO();
+                filmDAO.insertFilm(film);
             }
+           } catch (Exception ParseException) {
+                JOptionPane.showMessageDialog(null, "Data inválida!");
+           }
         });
 
         buttonClean.addActionListener(e -> {

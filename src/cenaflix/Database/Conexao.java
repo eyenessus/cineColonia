@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Conexao {
-    Connection conn; 
+    public Connection conn; 
     private String url, usuario, senha;
 
     public Conexao(){
@@ -19,13 +19,6 @@ public class Conexao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url, usuario, senha);
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM filme");
-            
-            while(rs.next()){
-                System.out.println(rs.getString("titulo"));
-            }
-            
             return true;
         } catch (ClassNotFoundException e) {
             System.out.println("Error: " + e.getMessage());

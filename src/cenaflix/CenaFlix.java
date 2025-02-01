@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package cenaflix;
-import cenaflix.Database.Conexao;
 import cenaflix.Screens.SignUpScreen;
 
 /**
@@ -16,8 +15,6 @@ public class CenaFlix {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Conexao con = new Conexao();
-        con.conectar();
         new SignUpScreen();
       
     }
