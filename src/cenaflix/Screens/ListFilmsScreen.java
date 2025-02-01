@@ -18,12 +18,13 @@ import cenaflix.DAO.FilmDAO;
 import cenaflix.Interfaces.IFilmDAO;
 import cenaflix.Model.Film;
 
-public class ListFimsScreen extends JFrame {
+public class ListFilmsScreen extends JFrame {
     private JTable table;
     private IFilmDAO filmDAO;
     private DefaultTableModel model;
+    private JFrame backScreen;
 
-    public ListFimsScreen() {
+    public ListFilmsScreen() {
         filmDAO = new FilmDAO();
         setSize(800, 600);
         setTitle("Cenaflix - Lista de filmes");
@@ -32,6 +33,11 @@ public class ListFimsScreen extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
         initalizeComponents();
+    }
+
+    public ListFilmsScreen(JFrame backScreen) {
+        this();
+        this.backScreen = backScreen;
     }
 
     private void initalizeComponents() {
@@ -68,9 +74,9 @@ public class ListFimsScreen extends JFrame {
         add(scroll, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(btnBack);
         buttonPanel.add(btnDelete);
         buttonPanel.add(btnEdit);
+        buttonPanel.add(btnBack);
 
         add(buttonPanel, BorderLayout.SOUTH);
         setVisible(true);
@@ -78,6 +84,9 @@ public class ListFimsScreen extends JFrame {
 
     private void btnBackActionPerformed(ActionEvent evt) {
         this.dispose();
+        if (backScreen != null) {
+            backScreen.setVisible(true);
+        }
     }
 
     private void btnDeleteActionPerformed(ActionEvent evt) {
@@ -97,6 +106,7 @@ public class ListFimsScreen extends JFrame {
     }
 
     private void btnEditActionPerformed(ActionEvent evt) {
+        
         int lineRow = table.getSelectedRow();
         if (lineRow == -1) {
             System.out.println("Nenhuma linha selecionada");
@@ -107,7 +117,8 @@ public class ListFimsScreen extends JFrame {
         Long id = (Long) table.getValueAt(lineRow, 0);
         Film film = filmDAO.getFilmByID(id);
         if (film != null) {
-            new SignUpScreen(film);
+            setVisible(false);
+            new SignUpScreen(film,this);
         } else {
             JOptionPane.showMessageDialog(null, "Filme não encontrado!");
         }

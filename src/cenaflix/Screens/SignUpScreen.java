@@ -11,8 +11,10 @@ import javax.swing.*;
 import cenaflix.DAO.FilmDAO;
 import cenaflix.Model.Category;
 import cenaflix.Model.Film;
+
 /**
  * SignUpScreen - Screen to register a new film
+ * 
  * @author Emerson S.
  * @version 1.0
  * @since 01-02-2025
@@ -21,6 +23,8 @@ import cenaflix.Model.Film;
 public class SignUpScreen extends JFrame {
     private boolean isUpdate = false;
     private Film film;
+    private JFrame backScreen;
+
     public SignUpScreen() {
         setSize(800, 600);
         setTitle("Cenaflix - Cadastro de filmes");
@@ -31,11 +35,12 @@ public class SignUpScreen extends JFrame {
         initalizeComponents();
     }
 
-    public SignUpScreen(Film film){
+    public SignUpScreen(Film film,JFrame backScreen) {
         isUpdate = true;
         this.film = film;
+        this.backScreen = backScreen;
         setSize(800, 600);
-        setTitle("Cenaflix - Cadastro de filmes");
+        setTitle("Cenaflix - Atualização de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -43,8 +48,11 @@ public class SignUpScreen extends JFrame {
         initalizeComponents();
     }
 
+  
+
     /**
      * Initialize the components of the screen
+     * 
      * @author Emerson S.
      * @since 01-02-2025
      * @version 1.0
@@ -87,7 +95,7 @@ public class SignUpScreen extends JFrame {
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        
+
         JFormattedTextField textFieldDate = new JFormattedTextField(new java.text.SimpleDateFormat("dd/MM/yyyy"));
         textFieldDate.setToolTipText("dd/MM/yyyy");
         textFieldDate.setColumns(20);
@@ -105,41 +113,49 @@ public class SignUpScreen extends JFrame {
         JLabel labelCategory = new JLabel("Category:");
         mainPanel.add(labelCategory, gbc);
 
-        JComboBox<String> comboBoxCategory = new JComboBox<>();
-        comboBoxCategory.addItem("Ação");
-        comboBoxCategory.addItem("Aventura");
-        comboBoxCategory.addItem("Comédia");
-        comboBoxCategory.addItem("Drama");
-        comboBoxCategory.addItem("Ficção Científica");
-        comboBoxCategory.addItem("Terror");
+        JTextField categoryField = new JTextField();
 
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainPanel.add(comboBoxCategory, gbc);
+        mainPanel.add(categoryField, gbc);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
         JButton buttonRegister = new JButton("Registrar");
         JButton buttonClean = new JButton("Limpar");
-
-        if(isUpdate){
+        JButton buttonList = new JButton("Listagem");
+        JButton buttonBack = new JButton("Voltar");
+        buttonPanel.setLayout(new FlowLayout());
+        
+        buttonPanel.add(buttonClean);
+        buttonPanel.add(buttonRegister);
+        
+        if (isUpdate) {
+            labelTitle.setText("CENAFLIX - Atualização de filmes");
             buttonRegister.setText("Atualizar");
             textFieldName.setText(film.getTitle());
             textFieldDate.setText(film.getDate().toString());
-            comboBoxCategory.setSelectedIndex(0);
-        }else{
+            categoryField.setText(film.getCategory().getName());
+            buttonPanel.add(buttonBack);
+        } else {
             buttonRegister.setText("Registrar");
+            buttonPanel.add(buttonList);
         }
-        buttonPanel.add(buttonRegister);
-        buttonPanel.add(buttonClean);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+       
         mainPanel.add(buttonPanel, gbc);
         add(mainPanel);
+
+        buttonBack.addActionListener(e -> {
+            if (e.getSource() == buttonBack) {
+                setVisible(false);
+                backScreen.setVisible(true);
+            }
+        });
 
         buttonRegister.addActionListener(e -> {
             if (textFieldName.getText().isEmpty() || textFieldDate.getText().isEmpty()
@@ -148,44 +164,57 @@ public class SignUpScreen extends JFrame {
                 return;
             }
 
-           try {
-            if (e.getSource() == buttonRegister) {
-                String name = textFieldName.getText();
-                String date = textFieldDate.getText();
-                String category = comboBoxCategory.getSelectedItem().toString();
-                 
-                Date dateParse = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            try {
+                if (e.getSource() == buttonRegister) {
+                    String name = textFieldName.getText();
+                    String date = textFieldDate.getText();
+                    String category = categoryField.getText();
+                    Date dateParse = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 
-                if(date.length() != 10){
-                    JOptionPane.showMessageDialog(null, "Data inválida!");
-                    return;
+                    if (date.length() != 10) {
+                        JOptionPane.showMessageDialog(null, "Data inválida!");
+                        return;
+                    }
+
+                    Film film = new Film();
+                    FilmDAO filmDAO = new FilmDAO();
+
+                    film.setTitle(name);
+                    film.setDate(dateParse);
+                    film.setCategory(new Category(category));
+
+                    textFieldName.setText("");
+                    textFieldDate.setText("dd/MM/yyyy");
+                    categoryField.setText("");
+
+                    if (isUpdate) {
+                        filmDAO.updateFilm(film);
+                        JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
+                        setVisible(false);
+                        return;
+                    }
+                    filmDAO.insertFilm(film);
                 }
-
-                Film film = new Film();
-                FilmDAO filmDAO = new FilmDAO();
-
-                film.setTitle(name);
-                film.setDate(dateParse);
-                film.setCategory(new Category(category));
-
-                if(isUpdate){
-                    filmDAO.updateFilm(film);
-                    return;
-                }
-                filmDAO.insertFilm(film);
-            }
-           } catch (Exception ParseException) {
+            } catch (Exception ParseException) {
                 JOptionPane.showMessageDialog(null, "Data inválida!");
-           }
+            }
         });
 
         buttonClean.addActionListener(e -> {
             if (e.getSource() == buttonClean) {
                 textFieldName.setText("");
                 textFieldDate.setText("dd/MM/yyyy");
-                comboBoxCategory.setSelectedIndex(0);
+                categoryField.setText("");
             }
         });
+
+        buttonList.addActionListener(e -> {
+            if (e.getSource() == buttonList) {
+                setVisible(false);
+                new ListFilmsScreen(this);
+            }
+        });
+
         setVisible(true);
     }
 

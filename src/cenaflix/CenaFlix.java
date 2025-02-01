@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package cenaflix;
-import cenaflix.Screens.ListFimsScreen;
+import cenaflix.Screens.ListFilmsScreen;
+import cenaflix.Screens.SignUpScreen;
 
 /**
  * CenaFlix - Main class of the application
@@ -16,7 +17,7 @@ public class CenaFlix {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new ListFimsScreen();
+        new SignUpScreen();
     }
 
 }
