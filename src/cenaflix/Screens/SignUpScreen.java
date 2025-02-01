@@ -118,9 +118,8 @@ public class SignUpScreen extends JFrame {
                 String name = textFieldName.getText();
                 String date = textFieldDate.getText();
                 String category = comboBoxCategory.getSelectedItem().toString();
-
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date dateParse = dateFormatter.parse(date);
+                 
+                Date dateParse = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 
                 if(date.length() != 10){
                     JOptionPane.showMessageDialog(null, "Data inválida!");
