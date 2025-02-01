@@ -1,11 +1,14 @@
 package cenaflix.DAO;
 
-import java.awt.Dialog;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import cenaflix.Database.Conexao;
+import cenaflix.Model.Category;
 import cenaflix.Model.Film;
 
 public class FilmDAO {
@@ -34,6 +37,35 @@ public class FilmDAO {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
             return false;
+        }
+    }
+
+    public List<Film> searchFilm(String title) {
+        try {
+            String query = "SELECT * FROM filmes WHERE nome = ?";
+            if (dataBase.conectar()) {
+                PreparedStatement st = dataBase.conn.prepareStatement(query);
+                st.setString(1, title);
+                ResultSet result = st.executeQuery();
+
+                List<Film> filmList = new ArrayList<Film>();
+
+                if (result.next()) {
+                    Film film = new Film();
+                    film.setTitle(result.getString("nome"));
+                    film.setDate(result.getDate("datalancamento"));
+                    film.setCategory(new Category(result.getString("categoria")));
+                    filmList.add(film);
+                }
+                dataBase.desconectar();
+                return filmList;
+
+            }
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro interno, tente novamente mais tarde!");
+            return null;
         }
     }
 }
