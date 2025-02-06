@@ -142,16 +142,16 @@ public class FilmDAO implements IFilmDAO {
 
     public boolean updateFilm(Film film) {
         try {
-            String query = "UPDATE filmes SET nome = ? datalancamento = ?, categoria = ? WHERE nome = ?";
+            String queryUpdate = "UPDATE filmes SET nome = ?, datalancamento = ?, categoria = ? WHERE id = ?";
+
             if (dataBase.conectar()) {
-                PreparedStatement st = dataBase.conn.prepareStatement(query);
+                PreparedStatement st = dataBase.conn.prepareStatement(queryUpdate);
                 st.setString(1, film.getTitle());
-                st.setDate(1, new java.sql.Date(film.getDate().getTime()));
-                st.setString(2, film.getCategory().getName());
-                st.setString(3, film.getTitle());
+                st.setDate(2, new java.sql.Date(film.getDate().getTime()));
+                st.setString(3, film.getCategory().getName().toString());
+                st.setLong(4, film.getId());
                 st.executeUpdate();
                 dataBase.desconectar();
-                JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
                 return true;
             }
             JOptionPane.showMessageDialog(null, "Erro ao atualizar!");

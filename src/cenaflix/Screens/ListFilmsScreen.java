@@ -41,6 +41,16 @@ public class ListFilmsScreen extends JFrame {
         this.backScreen = backScreen;
     }
 
+    public void reloadDataTable() {
+        List<Film> list = filmDAO.listFilms();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        model.setRowCount(0);
+        list.forEach(film -> {
+            model.addRow(new Object[] { film.getId(), film.getTitle(), sdf.format(film.getDate()),
+                    film.getCategory().getName() });
+        });
+    }
+
     private void initalizeComponents() {
         JLabel title = new JLabel("CENAFLIX - Lista de Filmes");
         title.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 40));
@@ -66,12 +76,7 @@ public class ListFilmsScreen extends JFrame {
         table.setModel(model);
 
         // Table data
-        List<Film> list = filmDAO.listFilms();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        list.forEach(film -> {
-            model.addRow(new Object[] { film.getId(), film.getTitle(),sdf.format(film.getDate()), film.getCategory().getName() });
-        });
-
+        reloadDataTable();
         add(title, BorderLayout.NORTH);
         add(scroll, BorderLayout.CENTER);
 
@@ -108,7 +113,7 @@ public class ListFilmsScreen extends JFrame {
     }
 
     private void btnEditActionPerformed(ActionEvent evt) {
-        
+
         int lineRow = table.getSelectedRow();
         if (lineRow == -1) {
             System.out.println("Nenhuma linha selecionada");
@@ -120,7 +125,7 @@ public class ListFilmsScreen extends JFrame {
         Film film = filmDAO.getFilmByID(id);
         if (film != null) {
             setVisible(false);
-            new SignUpScreen(film,this);
+            new SignUpScreen(film, this);
         } else {
             JOptionPane.showMessageDialog(null, "Filme não encontrado!");
         }

@@ -22,7 +22,7 @@ import cenaflix.Model.Film;
 public class SignUpScreen extends JFrame {
     private boolean isUpdate = false;
     private Film film;
-    private JFrame backScreen;
+    private ListFilmsScreen backScreen;
 
     public SignUpScreen() {
         setSize(800, 600);
@@ -34,7 +34,7 @@ public class SignUpScreen extends JFrame {
         initalizeComponents();
     }
 
-    public SignUpScreen(Film film,JFrame backScreen) {
+    public SignUpScreen(Film film,ListFilmsScreen backScreen) {
         isUpdate = true;
         this.film = film;
         this.backScreen = backScreen;
@@ -51,7 +51,7 @@ public class SignUpScreen extends JFrame {
      * 
      * @author Emerson S.
      * @since 01-02-2025
-     * @version 1.0
+     *
      */
     private void initalizeComponents() {
         JPanel mainPanel = new JPanel();
@@ -163,7 +163,7 @@ public class SignUpScreen extends JFrame {
                     String name = textFieldName.getText();
                     String date = textFieldDate.getText();
                     String category = categoryField.getText();
-                    ;
+
 
                     if (date.length() != 10) {
                         JOptionPane.showMessageDialog(null, "Data inválida!");
@@ -182,9 +182,12 @@ public class SignUpScreen extends JFrame {
                     categoryField.setText("");
 
                     if (isUpdate) {
+                        film.setId(this.film.getId());
                         filmDAO.updateFilm(film);
                         JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
                         setVisible(false);
+                        this.backScreen.reloadDataTable();
+                        this.backScreen.setVisible(true);
                         return;
                     }
                     filmDAO.insertFilm(film);
