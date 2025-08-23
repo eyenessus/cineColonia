@@ -35,7 +35,6 @@ public class FilmDAO implements IFilmDAO {
                 st.setString(3, film.getCategory().getName());
                 st.executeUpdate();
                 dataBase.desconectar();
-                JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso!");
                 return true;
             }
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar!");

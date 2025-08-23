@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
 
-import cineColonia.DAO.FilmDAO;
+import cineColonia.Services.FilmeService;
 import cineColonia.Model.Category;
 import cineColonia.Model.Film;
 import cineColonia.Screens.ListFilmsScreen;
@@ -24,6 +24,7 @@ public class SignUpScreen extends JFrame {
     private boolean isUpdate = false;
     private Film film;
     private ListFilmsScreen backScreen;
+    private FilmeService filmeService = new FilmeService();
 
     public SignUpScreen() {
         setSize(800, 600);
@@ -172,8 +173,6 @@ public class SignUpScreen extends JFrame {
                     }
 
                     Film film = new Film();
-                    FilmDAO filmDAO = new FilmDAO();
-
                     film.setTitle(name);
                     film.setDate(dateParse.parse(date));
                     film.setCategory(new Category(category));
@@ -184,14 +183,23 @@ public class SignUpScreen extends JFrame {
 
                     if (isUpdate) {
                         film.setId(this.film.getId());
-                        filmDAO.updateFilm(film);
-                        JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
-                        setVisible(false);
-                        this.backScreen.reloadDataTable();
-                        this.backScreen.setVisible(true);
+                        boolean atualizado = filmeService.atualizarFilme(film);
+                        if (atualizado) {
+                            JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
+                            setVisible(false);
+                            this.backScreen.reloadDataTable();
+                            this.backScreen.setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Erro ao atualizar filme!");
+                        }
                         return;
                     }
-                    filmDAO.insertFilm(film);
+                    boolean cadastrado = filmeService.registrarFilme(film);
+                    if (cadastrado) {
+                        JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erro ao cadastrar filme!");
+                    }
                 }
             } catch (Exception ParseException) {
                 JOptionPane.showMessageDialog(null, "Data inválida!");
