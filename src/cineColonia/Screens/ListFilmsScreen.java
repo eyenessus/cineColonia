@@ -25,7 +25,7 @@ public class ListFilmsScreen extends JFrame {
     public ListFilmsScreen(FilmeService filmeService) {
         this.filmeService = filmeService;
         setSize(800, 600);
-        setTitle("CINECOLONIA - Lista de filmes")   ;
+        setTitle("CINECOLONIA - Lista de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -48,11 +48,8 @@ public class ListFilmsScreen extends JFrame {
         });
     }
 
-    private void initalizeComponents() {
-        JLabel title = new JLabel("CINECOLONIA - Lista de Filmes");
-        title.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 40));
-        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
+    private void createOptionsButtons(JPanel buttonPanel) {
+        buttonPanel.setLayout(new FlowLayout());
         JButton btnBack = new JButton("Voltar");
         JButton btnDelete = new JButton("Excluir");
         JButton btnEdit = new JButton("Editar");
@@ -60,6 +57,16 @@ public class ListFilmsScreen extends JFrame {
         btnBack.addActionListener(this::btnBackActionPerformed);
         btnDelete.addActionListener(this::btnDeleteActionPerformed);
         btnEdit.addActionListener(this::btnEditActionPerformed);
+
+        buttonPanel.add(btnDelete);
+        buttonPanel.add(btnEdit);
+        buttonPanel.add(btnBack);
+    }
+
+    private void initalizeComponents() {
+        JLabel title = new JLabel("CINECOLONIA - Lista de Filmes");
+        title.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 40));
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         String[] columnsName = { "ID", "Título", "Data de Lançamento", "Categoria" };
 
@@ -78,9 +85,7 @@ public class ListFilmsScreen extends JFrame {
         add(scroll, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(btnDelete);
-        buttonPanel.add(btnEdit);
-        buttonPanel.add(btnBack);
+        createOptionsButtons(buttonPanel);
 
         add(buttonPanel, BorderLayout.SOUTH);
         setVisible(true);
@@ -110,7 +115,6 @@ public class ListFilmsScreen extends JFrame {
     }
 
     private void btnEditActionPerformed(ActionEvent evt) {
-
         int lineRow = table.getSelectedRow();
         if (lineRow == -1) {
             System.out.println("Nenhuma linha selecionada");
