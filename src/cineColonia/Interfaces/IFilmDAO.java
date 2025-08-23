@@ -1,8 +1,8 @@
-package cenaflix.Interfaces;
+package cineColonia.Interfaces;
 
 import java.util.List;
 
-import cenaflix.Model.Film;
+import cineColonia.Model.Film;
 /**
  * IFilmDAO - Interface for FilmDAO
  * @author Emerson S.

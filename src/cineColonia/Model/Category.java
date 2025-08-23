@@ -1,4 +1,4 @@
-package cenaflix.Model;
+package cineColonia.Model;
 /**
  * Category - Model class for Category
  * @author Emerson S.

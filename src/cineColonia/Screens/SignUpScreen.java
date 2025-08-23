@@ -1,15 +1,13 @@
-package cenaflix.Screens;
+package cineColonia.Screens;
 
+import cineColonia.Model.Category;
+import cineColonia.Model.Film;
+import cineColonia.Services.FilmeService;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import javax.swing.*;
-
-import cenaflix.DAO.FilmDAO;
-import cenaflix.Model.Category;
-import cenaflix.Model.Film;
 
 /**
  * SignUpScreen - Screen to register a new film
@@ -26,7 +24,7 @@ public class SignUpScreen extends JFrame {
 
     public SignUpScreen() {
         setSize(800, 600);
-        setTitle("Cenaflix - Cadastro de filmes");
+        setTitle("CINECOLONIA - Cadastro de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -39,7 +37,7 @@ public class SignUpScreen extends JFrame {
         this.film = film;
         this.backScreen = backScreen;
         setSize(800, 600);
-        setTitle("Cenaflix - Atualização de filmes");
+        setTitle("CINECOLONIA - Atualização de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -125,7 +123,7 @@ public class SignUpScreen extends JFrame {
         buttonPanel.add(buttonRegister);
         
         if (isUpdate) {
-            labelTitle.setText("CENAFLIX - Atualização de filmes");
+            labelTitle.setText("CINECOLONIA - Atualização de filmes");
             buttonRegister.setText("Atualizar");
             textFieldName.setText(film.getTitle());
             textFieldDate.setText(dateParse.format(film.getDate()));
@@ -171,7 +169,7 @@ public class SignUpScreen extends JFrame {
                     }
 
                     Film film = new Film();
-                    FilmDAO filmDAO = new FilmDAO();
+                    FilmeService filmeService = new FilmeService();
 
                     film.setTitle(name);
                     film.setDate(dateParse.parse(date));
@@ -183,14 +181,14 @@ public class SignUpScreen extends JFrame {
 
                     if (isUpdate) {
                         film.setId(this.film.getId());
-                        filmDAO.updateFilm(film);
+                        filmeService.atualizarFilme(film);
                         JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
                         setVisible(false);
                         this.backScreen.reloadDataTable();
                         this.backScreen.setVisible(true);
                         return;
                     }
-                    filmDAO.insertFilm(film);
+                    filmeService.registrarFilme(film);
                 }
             } catch (Exception ParseException) {
                 JOptionPane.showMessageDialog(null, "Data inválida!");

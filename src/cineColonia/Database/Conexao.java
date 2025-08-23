@@ -1,8 +1,7 @@
-package cenaflix.Database;
+package cineColonia.Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 
 public class Conexao {
@@ -10,7 +9,7 @@ public class Conexao {
     private String url, usuario, senha;
 
     public Conexao(){
-        url = "jdbc:mysql://localhost:3306/ATIVIDADE1";
+        url = "jdbc:mysql://localhost:3306/cineColonial";
         usuario = "root";
         senha = "";
     }

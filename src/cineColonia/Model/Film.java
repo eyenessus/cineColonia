@@ -1,4 +1,4 @@
-package cenaflix.Model;
+package cineColonia.Model;
 
 import java.util.Date;
 /**

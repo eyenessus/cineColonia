@@ -1,4 +1,4 @@
-package cenaflix.DAO;
+package cineColonia.DAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,10 +7,10 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import cenaflix.Database.Conexao;
-import cenaflix.Interfaces.IFilmDAO;
-import cenaflix.Model.Category;
-import cenaflix.Model.Film;
+import cineColonia.Database.Conexao;
+import cineColonia.Interfaces.IFilmDAO;
+import cineColonia.Model.Category;
+import cineColonia.Model.Film;
 
 /**
  * Film DAO
