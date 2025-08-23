@@ -1,13 +1,16 @@
 package cineColonia.Screens;
 
-import cineColonia.Model.Category;
-import cineColonia.Model.Film;
-import cineColonia.Services.FilmeService;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import javax.swing.*;
+
+import cineColonia.DAO.FilmDAO;
+import cineColonia.Model.Category;
+import cineColonia.Model.Film;
+import cineColonia.Screens.ListFilmsScreen;
 
 /**
  * SignUpScreen - Screen to register a new film
@@ -24,7 +27,7 @@ public class SignUpScreen extends JFrame {
 
     public SignUpScreen() {
         setSize(800, 600);
-        setTitle("CINECOLONIA - Cadastro de filmes");
+        setTitle("CineColonia - Cadastro de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -32,18 +35,19 @@ public class SignUpScreen extends JFrame {
         initalizeComponents();
     }
 
-    public SignUpScreen(Film film,ListFilmsScreen backScreen) {
+    public SignUpScreen(Film film, ListFilmsScreen backScreen) {
         isUpdate = true;
         this.film = film;
         this.backScreen = backScreen;
         setSize(800, 600);
-        setTitle("CINECOLONIA - Atualização de filmes");
+        setTitle("CineColonia - Atualização de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
         initalizeComponents();
     }
+
     /**
      * Initialize the components of the screen
      * 
@@ -58,7 +62,7 @@ public class SignUpScreen extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
 
-        JLabel labelTitle = new JLabel("CENAFLIX");
+        JLabel labelTitle = new JLabel("CineColonia");
         labelTitle.setFont(new Font("Arial", Font.BOLD, 40));
         labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
         SimpleDateFormat dateParse = new SimpleDateFormat("dd/MM/yyyy");
@@ -121,9 +125,9 @@ public class SignUpScreen extends JFrame {
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(buttonClean);
         buttonPanel.add(buttonRegister);
-        
+
         if (isUpdate) {
-            labelTitle.setText("CINECOLONIA - Atualização de filmes");
+            labelTitle.setText("CineColonia - Atualização de filmes");
             buttonRegister.setText("Atualizar");
             textFieldName.setText(film.getTitle());
             textFieldDate.setText(dateParse.format(film.getDate()));
@@ -138,7 +142,7 @@ public class SignUpScreen extends JFrame {
         gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-       
+
         mainPanel.add(buttonPanel, gbc);
         add(mainPanel);
 
@@ -162,14 +166,13 @@ public class SignUpScreen extends JFrame {
                     String date = textFieldDate.getText();
                     String category = categoryField.getText();
 
-
                     if (date.length() != 10) {
                         JOptionPane.showMessageDialog(null, "Data inválida!");
                         return;
                     }
 
                     Film film = new Film();
-                    FilmeService filmeService = new FilmeService();
+                    FilmDAO filmDAO = new FilmDAO();
 
                     film.setTitle(name);
                     film.setDate(dateParse.parse(date));
@@ -181,14 +184,14 @@ public class SignUpScreen extends JFrame {
 
                     if (isUpdate) {
                         film.setId(this.film.getId());
-                        filmeService.atualizarFilme(film);
+                        filmDAO.updateFilm(film);
                         JOptionPane.showMessageDialog(null, "Filme atualizado com sucesso!");
                         setVisible(false);
                         this.backScreen.reloadDataTable();
                         this.backScreen.setVisible(true);
                         return;
                     }
-                    filmeService.registrarFilme(film);
+                    filmDAO.insertFilm(film);
                 }
             } catch (Exception ParseException) {
                 JOptionPane.showMessageDialog(null, "Data inválida!");

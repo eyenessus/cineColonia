@@ -1,12 +1,11 @@
 package cineColonia.Screens;
 
-import cineColonia.Model.Film;
-import cineColonia.Services.FilmeService;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,16 +15,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import cineColonia.Services.FilmeService;
+import cineColonia.Model.Film;
+
 public class ListFilmsScreen extends JFrame {
     private JTable table;
     private FilmeService filmeService;
     private DefaultTableModel model;
     private JFrame backScreen;
 
-    public ListFilmsScreen(FilmeService filmeService) {
-        this.filmeService = filmeService;
+    public ListFilmsScreen() {
+        filmeService = new FilmeService();
         setSize(800, 600);
-        setTitle("CINECOLONIA - Lista de filmes");
+        setTitle("CineColonia - Lista de filmes");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -34,7 +36,7 @@ public class ListFilmsScreen extends JFrame {
     }
 
     public ListFilmsScreen(JFrame backScreen) {
-        this.filmeService = new FilmeService();
+        this();
         this.backScreen = backScreen;
     }
 
@@ -48,8 +50,11 @@ public class ListFilmsScreen extends JFrame {
         });
     }
 
-    private void createOptionsButtons(JPanel buttonPanel) {
-        buttonPanel.setLayout(new FlowLayout());
+    private void initalizeComponents() {
+        JLabel title = new JLabel("CineColonia - Lista de Filmes");
+        title.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 40));
+        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         JButton btnBack = new JButton("Voltar");
         JButton btnDelete = new JButton("Excluir");
         JButton btnEdit = new JButton("Editar");
@@ -57,16 +62,6 @@ public class ListFilmsScreen extends JFrame {
         btnBack.addActionListener(this::btnBackActionPerformed);
         btnDelete.addActionListener(this::btnDeleteActionPerformed);
         btnEdit.addActionListener(this::btnEditActionPerformed);
-
-        buttonPanel.add(btnDelete);
-        buttonPanel.add(btnEdit);
-        buttonPanel.add(btnBack);
-    }
-
-    private void initalizeComponents() {
-        JLabel title = new JLabel("CINECOLONIA - Lista de Filmes");
-        title.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 40));
-        title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         String[] columnsName = { "ID", "Título", "Data de Lançamento", "Categoria" };
 
@@ -85,7 +80,9 @@ public class ListFilmsScreen extends JFrame {
         add(scroll, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        createOptionsButtons(buttonPanel);
+        buttonPanel.add(btnDelete);
+        buttonPanel.add(btnEdit);
+        buttonPanel.add(btnBack);
 
         add(buttonPanel, BorderLayout.SOUTH);
         setVisible(true);
@@ -111,7 +108,6 @@ public class ListFilmsScreen extends JFrame {
         if (confirmDelete) {
             model.removeRow(lineRow);
         }
-
     }
 
     private void btnEditActionPerformed(ActionEvent evt) {

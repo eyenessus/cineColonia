@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="CenaFlix">
+  <library name="CineColonia">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/CenaFlix.jar!/" />
+      <root url="jar://$PROJECT_DIR$/dist/CineColonia.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
