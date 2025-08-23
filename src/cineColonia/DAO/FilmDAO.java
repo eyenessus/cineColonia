@@ -118,7 +118,7 @@ public class FilmDAO implements IFilmDAO {
             return null;
         }
     }
-
+    
     public boolean deleteFilm(String title) {
         try {
             String query = "DELETE FROM filmes WHERE id = ?";
@@ -127,10 +127,8 @@ public class FilmDAO implements IFilmDAO {
                 st.setString(1, title);
                 st.executeUpdate();
                 dataBase.desconectar();
-                JOptionPane.showMessageDialog(null, "Filme deletado com sucesso!");
                 return true;
             }
-            JOptionPane.showMessageDialog(null, "Erro ao deletar!");
             return false;
         } catch (Exception e) {
             System.out.println(e.getMessage());

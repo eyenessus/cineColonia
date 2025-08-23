@@ -1,5 +1,6 @@
 package cineColonia.Screens;
 
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -18,11 +19,45 @@ import javax.swing.table.DefaultTableModel;
 import cineColonia.Services.FilmeService;
 import cineColonia.Model.Film;
 
+// Interface Segregation Principle (ISP)
+interface IFilmTableModelManager {
+    void reloadDataTable();
+
+    void removeRow(int rowIndex);
+}
+
+class FilmTableModelManager implements IFilmTableModelManager {
+    private FilmeService filmeService;
+    private DefaultTableModel model;
+
+    public FilmTableModelManager(FilmeService filmeService, DefaultTableModel model) {
+        this.filmeService = filmeService;
+        this.model = model;
+    }
+
+    @Override
+    public void reloadDataTable() {
+        List<Film> list = filmeService.listaDeFilmes();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        model.setRowCount(0);
+        list.forEach(film -> {
+            model.addRow(new Object[] { film.getId(), film.getTitle(), sdf.format(film.getDate()),
+                    film.getCategory().getName() });
+        });
+    }
+
+    @Override
+    public void removeRow(int rowIndex) {
+        model.removeRow(rowIndex);
+    }
+}
+
 public class ListFilmsScreen extends JFrame {
     private JTable table;
     private FilmeService filmeService;
     private DefaultTableModel model;
     private JFrame backScreen;
+    private IFilmTableModelManager tableManager;
 
     public ListFilmsScreen() {
         filmeService = new FilmeService();
@@ -41,13 +76,7 @@ public class ListFilmsScreen extends JFrame {
     }
 
     public void reloadDataTable() {
-        List<Film> list = filmeService.listaDeFilmes();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        model.setRowCount(0);
-        list.forEach(film -> {
-            model.addRow(new Object[] { film.getId(), film.getTitle(), sdf.format(film.getDate()),
-                    film.getCategory().getName() });
-        });
+        tableManager.reloadDataTable();
     }
 
     private void initalizeComponents() {
@@ -65,16 +94,16 @@ public class ListFilmsScreen extends JFrame {
 
         String[] columnsName = { "ID", "Título", "Data de Lançamento", "Categoria" };
 
-        // Table with scroll
         table = new JTable();
         JScrollPane scroll = new JScrollPane(table);
 
-        // Table model
         model = new DefaultTableModel();
         model.setColumnIdentifiers(columnsName);
         table.setModel(model);
 
-        // Table data
+        // Dependency Inversion Principle (DIP): Depende de abstração.
+        tableManager = new FilmTableModelManager(filmeService, model);
+
         reloadDataTable();
         add(title, BorderLayout.NORTH);
         add(scroll, BorderLayout.CENTER);
@@ -106,7 +135,10 @@ public class ListFilmsScreen extends JFrame {
         String id = table.getValueAt(lineRow, 0).toString();
         boolean confirmDelete = filmeService.deleteFilme(id);
         if (confirmDelete) {
-            model.removeRow(lineRow);
+            tableManager.removeRow(lineRow);
+            JOptionPane.showMessageDialog(null, "Filme deletado com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao deletar!");
         }
     }
 
