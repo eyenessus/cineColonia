@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/emers/OneDrive/Desktop/CineColonia/src/cineColonia/CineColonia.java</file>
-            <file>file:/C:/Users/emers/OneDrive/Desktop/CineColonia/src/cineColonia/Model/Category.java</file>
-            <file>file:/C:/Users/emers/OneDrive/Desktop/CineColonia/src/cineColonia/Screens/ListFilmsScreen.java</file>
-            <file>file:/C:/Users/emers/OneDrive/Desktop/CineColonia/src/cineColonia/Screens/SignUpScreen.java</file>
-            <file>file:/C:/Users/emers/OneDrive/Desktop/CineColonia/src/cineColonia/DAO/FilmDAO.java</file>
+            <file>file:/C:/Users/emers/OneDrive/Desktop/cineColonia/src/cineColonia/CineColonia.java</file>
+            <file>file:/C:/Users/emers/OneDrive/Desktop/cineColonia/test/cineColonia/CineColoniaTest.java</file>
         </group>
     </open-files>
 </project-private>
